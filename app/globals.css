@@ -1,0 +1,533 @@
+:root {
+  --bg: #f6f8fc;
+  --surface: #ffffff;
+  --border: rgba(15, 23, 42, 0.1);
+  --text: #1c2536;
+  --muted: #5c6b82;
+  --accent-a: #0891b2;
+  --accent-b: #6366f1;
+  --accent-c: #d946ef;
+  --green: #059669;
+  --red: #dc2626;
+  --mono: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Consolas,
+    'Liberation Mono', monospace;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans',
+    'Hiragino Kaku Gothic ProN', 'Noto Sans JP', Meiryo, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(99, 102, 241, 0.14), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 5%, rgba(8, 145, 178, 0.1), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 10% 20%, rgba(217, 70, 239, 0.07), transparent 60%),
+    radial-gradient(circle at 1px 1px, rgba(15, 23, 42, 0.05) 1px, transparent 0);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 34px 34px;
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+}
+
+a {
+  color: var(--accent-a);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  background: rgba(15, 23, 42, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.1em 0.4em;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.container {
+  width: min(720px, 100% - 2.5rem);
+  margin-inline: auto;
+  flex: 1;
+  padding-top: clamp(1.5rem, 5vh, 3rem);
+}
+
+/* ---------- header / footer ---------- */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(720px, 100% - 2.5rem);
+  margin-inline: auto;
+  padding-block: 1.4rem;
+}
+
+.brand {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.brand:hover {
+  text-decoration: none;
+}
+.brand-mark {
+  background: linear-gradient(135deg, var(--accent-a), var(--accent-b), var(--accent-c));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 1.35rem;
+}
+
+.header-link {
+  color: var(--muted);
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.35rem 0.95rem;
+  background: var(--surface);
+  transition: color 0.2s, border-color 0.2s;
+}
+.header-link:hover {
+  color: var(--text);
+  border-color: rgba(15, 23, 42, 0.25);
+  text-decoration: none;
+}
+
+.site-footer {
+  margin-top: 4rem;
+  padding: 2.2rem 1.25rem 2.6rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ---------- landing (クエリなし) ---------- */
+
+.landing-lead {
+  color: var(--muted);
+  animation: fade-up 0.5s ease both;
+}
+
+/* ---------- terminal / code cards（ここだけダークを保つ） ---------- */
+
+.term,
+.code-card {
+  --border: rgba(255, 255, 255, 0.1);
+  --muted: #94a0b4;
+  --green: #34d399;
+  --red: #f87171;
+  --accent-a: #22d3ee;
+  color: #dce5f2;
+  background: #0d1424;
+  border: 1px solid rgba(15, 23, 42, 0.4);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.18);
+}
+
+.code-card {
+  margin-bottom: 1.25rem;
+}
+
+.code-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.code-dots {
+  display: inline-flex;
+  gap: 6px;
+}
+.code-dots i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+.code-dots i:nth-child(1) {
+  background: #ff5f57;
+}
+.code-dots i:nth-child(2) {
+  background: #febc2e;
+}
+.code-dots i:nth-child(3) {
+  background: #28c840;
+}
+
+.code-card-label {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+
+.code-pre {
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  line-height: 1.9;
+  padding: 1.1rem 1.25rem;
+  overflow-x: auto;
+  white-space: pre;
+  color: #d6e2f0;
+}
+.code-pre .prompt {
+  color: var(--green);
+}
+
+.copy-btn {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.25rem 0.85rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+.copy-btn:hover {
+  color: #dce5f2;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ---------- live verification ---------- */
+
+.term-body {
+  padding: 1.1rem 1.25rem;
+  min-height: 5.5rem;
+}
+
+.term-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  padding-block: 0.45rem;
+  animation: fade-up 0.35s ease both;
+}
+
+.term-icon {
+  flex: none;
+}
+
+.term-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.term-detail {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  overflow-wrap: anywhere;
+}
+
+.term-mark {
+  flex: none;
+  font-weight: 700;
+}
+.term-ok .term-mark {
+  color: var(--green);
+}
+.term-ng .term-mark {
+  color: var(--red);
+}
+.term-ng .term-text {
+  color: var(--red);
+}
+
+.caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 0.3em;
+  vertical-align: text-bottom;
+  background: var(--accent-a);
+  animation: blink 1s steps(2, start) infinite;
+}
+
+/* ---------- result ---------- */
+
+.result {
+  margin-top: 2rem;
+  text-align: center;
+  border-radius: 20px;
+  padding: clamp(2rem, 6vw, 3.5rem) 1.5rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  animation: pop-in 0.55s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+.result-verified {
+  background:
+    radial-gradient(ellipse 70% 90% at 50% 0%, rgba(5, 150, 105, 0.09), transparent 70%),
+    var(--surface);
+  border-color: rgba(5, 150, 105, 0.35);
+  box-shadow: 0 12px 48px rgba(5, 150, 105, 0.16);
+}
+
+.result-failed {
+  background:
+    radial-gradient(ellipse 70% 90% at 50% 0%, rgba(220, 38, 38, 0.07), transparent 70%),
+    var(--surface);
+  border-color: rgba(220, 38, 38, 0.3);
+  box-shadow: 0 12px 48px rgba(220, 38, 38, 0.1);
+}
+
+.result-mark {
+  font-size: clamp(3rem, 10vw, 4.5rem);
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.result-verified .result-mark {
+  filter: drop-shadow(0 6px 18px rgba(5, 150, 105, 0.4));
+  animation: pulse-glow 2.4s ease-in-out infinite;
+}
+
+.result-title {
+  font-size: clamp(1.5rem, 5.5vw, 2.4rem);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.result-domain {
+  background: linear-gradient(100deg, var(--green), var(--accent-a));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.result-since {
+  font-family: var(--mono);
+  color: var(--green);
+  letter-spacing: 0.15em;
+  margin-top: 0.4rem;
+}
+
+.result-desc {
+  color: var(--muted);
+  margin-top: 1rem;
+  max-width: 34em;
+  margin-inline: auto;
+}
+
+.verify-note {
+  margin-top: 1.2rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ---------- TXT reveal ---------- */
+
+.txt-reveal {
+  margin-top: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.txt-reveal summary {
+  cursor: pointer;
+  padding: 0.9rem 1.2rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+  list-style: none;
+  transition: color 0.2s;
+}
+.txt-reveal summary::-webkit-details-marker {
+  display: none;
+}
+.txt-reveal summary:hover {
+  color: var(--text);
+}
+.txt-reveal[open] summary {
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.txt-reveal-icon {
+  margin-right: 0.5rem;
+}
+
+.txt-reveal-body {
+  padding: 1rem 1.2rem 1.2rem;
+}
+
+.txt-reveal-meta {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+  overflow-wrap: anywhere;
+}
+
+.txt-reveal-resolver {
+  font-family: var(--mono);
+  margin-left: 0.7em;
+  color: var(--accent-a);
+}
+
+.txt-reveal-pre {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  line-height: 1.8;
+  background: #0d1424;
+  border: 1px solid rgba(15, 23, 42, 0.4);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+  color: #34d399;
+}
+
+.txt-reveal-note {
+  margin-top: 0.8rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+/* ---------- try it yourself ---------- */
+
+.try-section {
+  margin-top: 3.5rem;
+  padding-top: 2.2rem;
+  border-top: 1px solid var(--border);
+}
+
+.try-title {
+  font-size: 1.15rem;
+  margin-bottom: 1.1rem;
+}
+
+.try-links {
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin-top: 1.2rem;
+}
+
+.try-note {
+  margin-top: 1.4rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* ---------- confetti ---------- */
+
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 10;
+}
+.confetti span {
+  position: absolute;
+  top: -3vh;
+  border-radius: 2px;
+  opacity: 0;
+  animation-name: confetti-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+/* ---------- animations ---------- */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 6px 14px rgba(5, 150, 105, 0.35));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 8px 26px rgba(5, 150, 105, 0.6));
+    transform: scale(1.04);
+  }
+}
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    opacity: 0.9;
+    transform: translateY(105vh) rotate(660deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .confetti {
+    display: none;
+  }
+}
