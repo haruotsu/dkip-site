@@ -24,10 +24,10 @@ npm run build  # 静的エクスポート (out/)
 
 ## デプロイ
 
-`main` への push で GitHub Actions が `out/` を GitHub Pages に公開します。
+`npm run build` で `out/` に静的ファイルが出るので、任意の静的ホスティングに置く。
 
-- プロジェクトページ（`https://<user>.github.io/dkip-site/`）で公開する場合は `NEXT_PUBLIC_BASE_PATH=/dkip-site` でビルド（ワークフローに設定済み）
-- カスタムドメインを使う場合はワークフローの `NEXT_PUBLIC_BASE_PATH` を削除
+- サブパス（例: `https://<user>.github.io/dkip-site/`）で公開する場合は `NEXT_PUBLIC_BASE_PATH=/dkip-site npm run build`
+- ルート直下（カスタムドメイン等）ならそのまま `npm run build`
 
 ## 関連リンク
 
