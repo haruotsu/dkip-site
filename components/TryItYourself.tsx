@@ -4,13 +4,13 @@ const COMMANDS = `export MUU_PAT=<ムームードメインの PAT>        # doma
 export SUZURI_API_KEY=<SUZURI の API キー>
 
 go install github.com/haruotsu/dkip@latest
-dkip example.com`;
+dkip example.com   # ムームードメインで所有中のドメイン`;
 
 // 成功・失敗どちらの画面にも出す「あなたもやろう」導線。
 export default function TryItYourself() {
   return (
     <section className="try-section">
-      <h2 className="try-title">あなたのドメインでもできる</h2>
+      <h2 className="try-title">やりかた</h2>
       <div className="code-card">
         <div className="code-card-head">
           <span className="code-dots" aria-hidden>
@@ -53,11 +53,6 @@ export default function TryItYourself() {
           </a>
         </li>
       </ul>
-      <p className="try-note">
-        証明できるのは「発行時点でそのドメインの DNS
-        を操作できた人が署名した」こと。TXT レコードを消せばいつでも失効できます。
-        秘密鍵は手元にだけ保存され、どこにも送信されません。
-      </p>
     </section>
   );
 }

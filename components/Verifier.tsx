@@ -31,7 +31,6 @@ type Verdict =
 interface TxtEvidence {
   name: string;
   records: string[];
-  resolver: string;
 }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -120,8 +119,7 @@ function ResultCard({
         </h1>
         {y && y !== 'unknown' && <p className="result-since">since {y}</p>}
         <p className="result-desc">
-          このドメインの所有者が {t} に発行したことを、DNS
-          に刻まれた公開鍵が証明しています。いまレコードが残っている＝いまも有効です。
+          このドメインの所有者が {t} に発行したことを、DNS が保証しています。
         </p>
         <ShareButton d={d!} y={y ?? 'unknown'} item={item} />
       </div>
@@ -202,11 +200,9 @@ export default function Verifier() {
       await sleep(600);
 
       let records: string[];
-      let resolver: string;
       try {
         const res = await resolveTXT(name);
         records = res.records;
-        resolver = res.resolver;
       } catch {
         settle(l2, 'ng', 'DNS に到達できませんでした');
         setVerdict({
@@ -217,7 +213,7 @@ export default function Verifier() {
         return;
       }
 
-      setEvidence({ name, records, resolver });
+      setEvidence({ name, records });
 
       const dkimTxt = records.find(
         (r) => r.includes('v=DKIM1') && r.includes('p='),
@@ -227,7 +223,7 @@ export default function Verifier() {
         setVerdict({ kind: 'unresolved' });
         return;
       }
-      settle(l2, 'ok', 'TXT レコードを取得しました', `TXT ${name}  (via ${resolver})`);
+      settle(l2, 'ok', 'TXT レコードを取得しました');
 
       const l3 = push('🔑', '公開鍵を取り出しています…');
       await sleep(500);
@@ -287,9 +283,8 @@ export default function Verifier() {
         <main className="container">
           <p className="landing-lead">
             自分のドメインの公開鍵を DNS に刻んで、「本物」の証明つき T
-            シャツをつくるツール、dkip の検証ページです。 T シャツの QR
-            コードを開くと、ブラウザが直接 DNS
-            を照会して署名を検証し、ここに結果を表示します。
+            シャツをつくる dkip。T シャツの QR コードを開くと、ブラウザが直接
+            DNS を照会して署名を検証し、ここに結果を表示します。
           </p>
           <TryItYourself />
         </main>
@@ -355,16 +350,12 @@ export default function Verifier() {
         {done && <ResultCard verdict={verdict} d={d} y={y} t={t} item={item} />}
 
         {evidence && evidence.records.length > 0 && (
-          <TxtReveal
-            name={evidence.name}
-            records={evidence.records}
-            resolver={evidence.resolver}
-          />
+          <TxtReveal name={evidence.name} records={evidence.records} />
         )}
 
         {done && (
           <p className="verify-note">
-            検証はすべてこのブラウザの中で行われました。サーバーには何も送信されていません。
+            この検証は、あなたのブラウザが DNS に直接問い合わせて行いました。
           </p>
         )}
 
