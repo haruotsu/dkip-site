@@ -24,6 +24,17 @@ npm run build  # 静的エクスポート (out/)
 
 ## デプロイ
 
+### ロリポップ（本番: https://dkip-site.lolipop-now.app）
+
+[ロリポップ CLI](https://deploy.lolipop.jp/skills/lolipop-cli.md) でデプロイする。ビルドコマンドは `NEXT_OUTPUT=standalone npm run build`（プロジェクト作成時に設定済み）。
+
+```sh
+npm install -g lolipop
+lolipop deploy   # .lolipop/project.json があれば既存プロジェクトへ
+```
+
+### 静的ホスティング
+
 `npm run build` で `out/` に静的ファイルが出るので、任意の静的ホスティングに置く。
 
 - サブパス（例: `https://<user>.github.io/dkip-site/`）で公開する場合は `NEXT_PUBLIC_BASE_PATH=/dkip-site npm run build`
