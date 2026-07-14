@@ -10,6 +10,7 @@ import { verifyEd25519 } from '@/lib/verify';
 import { decodeBase64Url } from '@/lib/b64';
 import TxtReveal from './TxtReveal';
 import TryItYourself from './TryItYourself';
+import ShareButton from './ShareButton';
 
 type LineStatus = 'active' | 'ok' | 'ng';
 
@@ -120,6 +121,7 @@ function ResultCard({
           このドメインの所有者が {t} に発行したことを、DNS
           に刻まれた公開鍵が証明しています。いまレコードが残っている＝いまも有効です。
         </p>
+        <ShareButton d={d!} y={y ?? 'unknown'} />
       </div>
     );
   }
