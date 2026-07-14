@@ -17,10 +17,13 @@ export default function ShareButton({
   const [href, setHref] = useState<string | null>(null);
 
   useEffect(() => {
-    const shareUrl =
-      item ??
-      window.location.origin + window.location.pathname + window.location.search;
-    setHref(buildTweetIntentUrl(buildShareText(d, y), shareUrl));
+    // 本文に載せる検証 URL からは item を除く（商品リンクは url パラメータ側にあるため）
+    const params = new URLSearchParams(window.location.search);
+    params.delete('item');
+    const verifyUrl = `${window.location.origin}${window.location.pathname}?${params}`;
+    // item があるときは商品ページをリンク先にし、検証 URL は本文に載せる
+    const text = buildShareText(d, y, item ? verifyUrl : undefined);
+    setHref(buildTweetIntentUrl(text, item ?? verifyUrl));
   }, [d, y, item]);
 
   if (!href) return null;
