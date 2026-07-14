@@ -18,20 +18,6 @@ describe('buildShareText', () => {
     );
   });
 
-  it('verifyUrl を渡すと検証 URL の行をハッシュタグの前に入れる', () => {
-    expect(
-      buildShareText(
-        'haki.jp',
-        '2026',
-        'https://dkip-site.lolipop-now.app/?d=haki.jp&sig=x',
-      ),
-    ).toBe(
-      '✅ haki.jp は本物です（since 2026）\n' +
-        'このTシャツの本物さは、DNS が保証しています。\n' +
-        '🔎 検証: https://dkip-site.lolipop-now.app/?d=haki.jp&sig=x\n' +
-        '#ムームードメインAPI #SUZURI',
-    );
-  });
 });
 
 describe('buildTweetIntentUrl', () => {

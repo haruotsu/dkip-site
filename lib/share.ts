@@ -2,21 +2,13 @@
 
 const HASHTAGS = '#ムームードメインAPI #SUZURI';
 
-// verifyUrl は intent の url パラメータが商品ページを指すとき（=検証 URL が
-// 本文に出ないとき）だけ渡す。無指定なら重複を避けて省略する。
-export function buildShareText(
-  d: string,
-  y: string,
-  verifyUrl?: string,
-): string {
+export function buildShareText(d: string, y: string): string {
   const since = y && y !== 'unknown' ? `（since ${y}）` : '';
-  const lines = [
+  return [
     `✅ ${d} は本物です${since}`,
     'このTシャツの本物さは、DNS が保証しています。',
-  ];
-  if (verifyUrl) lines.push(`🔎 検証: ${verifyUrl}`);
-  lines.push(HASHTAGS);
-  return lines.join('\n');
+    HASHTAGS,
+  ].join('\n');
 }
 
 export function buildTweetIntentUrl(text: string, url: string): string {
