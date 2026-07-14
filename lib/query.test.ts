@@ -92,6 +92,88 @@ describe('parseVerifyQuery', () => {
     expect(result.mode).toBe('invalid');
   });
 
+  it('item が https://suzuri.jp/... なら verify 結果に含める', () => {
+    const result = parseVerifyQuery(
+      params({
+        d: 'example.com',
+        y: '2014',
+        t: '2026-07-14',
+        n: '9f3a1c',
+        sig: 'x',
+        item: 'https://suzuri.jp/haruotsu/12345/t-shirt/s/white',
+      }),
+    );
+    expect(result.mode).toBe('verify');
+    if (result.mode === 'verify') {
+      expect(result.item).toBe(
+        'https://suzuri.jp/haruotsu/12345/t-shirt/s/white',
+      );
+    }
+  });
+
+  it('suzuri.jp 以外のホストの item は無視する', () => {
+    const result = parseVerifyQuery(
+      params({
+        d: 'example.com',
+        y: '2014',
+        t: '2026-07-14',
+        n: '9f3a1c',
+        sig: 'x',
+        item: 'https://evil.example/phish',
+      }),
+    );
+    expect(result.mode).toBe('verify');
+    if (result.mode === 'verify') {
+      expect(result.item).toBeUndefined();
+    }
+  });
+
+  it('https 以外の item は無視する', () => {
+    const result = parseVerifyQuery(
+      params({
+        d: 'example.com',
+        y: '2014',
+        t: '2026-07-14',
+        n: '9f3a1c',
+        sig: 'x',
+        item: 'http://suzuri.jp/haruotsu/12345',
+      }),
+    );
+    expect(result.mode).toBe('verify');
+    if (result.mode === 'verify') {
+      expect(result.item).toBeUndefined();
+    }
+  });
+
+  it('evil-suzuri.jp のような偽ホストを拒否し、*.suzuri.jp は許可する', () => {
+    const fake = parseVerifyQuery(
+      params({
+        d: 'example.com',
+        y: '2014',
+        t: '2026-07-14',
+        n: '9f3a1c',
+        sig: 'x',
+        item: 'https://evil-suzuri.jp/x',
+      }),
+    );
+    if (fake.mode === 'verify') {
+      expect(fake.item).toBeUndefined();
+    }
+    const sub = parseVerifyQuery(
+      params({
+        d: 'example.com',
+        y: '2014',
+        t: '2026-07-14',
+        n: '9f3a1c',
+        sig: 'x',
+        item: 'https://shop.suzuri.jp/x',
+      }),
+    );
+    if (sub.mode === 'verify') {
+      expect(sub.item).toBe('https://shop.suzuri.jp/x');
+    }
+  });
+
   it('s クエリで selector を上書きできる', () => {
     const result = parseVerifyQuery(
       params({

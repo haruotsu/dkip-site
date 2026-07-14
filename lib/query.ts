@@ -23,9 +23,27 @@ export type VerifyQuery =
       n: string;
       sig: string;
       selector: string;
+      item?: string;
     }
   | { mode: 'landing' }
   | { mode: 'invalid' };
+
+// item は署名対象外の表示用パラメータなので、リンク偽装に使われないよう
+// https の suzuri.jp（サブドメイン含む）だけを受け付け、それ以外は黙って捨てる。
+function parseItemUrl(raw: string | null): string | undefined {
+  if (!raw) return undefined;
+  let url: URL;
+  try {
+    url = new URL(raw);
+  } catch {
+    return undefined;
+  }
+  if (url.protocol !== 'https:') return undefined;
+  if (url.hostname !== 'suzuri.jp' && !url.hostname.endsWith('.suzuri.jp')) {
+    return undefined;
+  }
+  return url.href;
+}
 
 export function parseVerifyQuery(params: URLSearchParams): VerifyQuery {
   const d = params.get('d');
@@ -48,5 +66,14 @@ export function parseVerifyQuery(params: URLSearchParams): VerifyQuery {
     return { mode: 'invalid' };
   }
 
-  return { mode: 'verify', d, y, t, n, sig, selector };
+  return {
+    mode: 'verify',
+    d,
+    y,
+    t,
+    n,
+    sig,
+    selector,
+    item: parseItemUrl(params.get('item')),
+  };
 }

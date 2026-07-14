@@ -101,11 +101,13 @@ function ResultCard({
   d,
   y,
   t,
+  item,
 }: {
   verdict: Verdict;
   d?: string;
   y?: string;
   t?: string;
+  item?: string;
 }) {
   if (verdict.kind === 'verified') {
     return (
@@ -121,7 +123,7 @@ function ResultCard({
           このドメインの所有者が {t} に発行したことを、DNS
           に刻まれた公開鍵が証明しています。いまレコードが残っている＝いまも有効です。
         </p>
-        <ShareButton d={d!} y={y ?? 'unknown'} />
+        <ShareButton d={d!} y={y ?? 'unknown'} item={item} />
       </div>
     );
   }
@@ -316,7 +318,7 @@ export default function Verifier() {
     );
   }
 
-  const { d, y, t } = query;
+  const { d, y, t, item } = query;
   const done = verdict !== null;
 
   return (
@@ -350,7 +352,7 @@ export default function Verifier() {
           </div>
         </div>
 
-        {done && <ResultCard verdict={verdict} d={d} y={y} t={t} />}
+        {done && <ResultCard verdict={verdict} d={d} y={y} t={t} item={item} />}
 
         {evidence && evidence.records.length > 0 && (
           <TxtReveal

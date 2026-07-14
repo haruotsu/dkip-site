@@ -343,11 +343,23 @@ code {
   margin-inline: auto;
 }
 
+.share-row {
+  margin-top: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.item-link {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
 .share-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
-  margin-top: 1.6rem;
   font-weight: 700;
   font-size: 0.95rem;
   color: #fff;
