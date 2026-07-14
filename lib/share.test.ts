@@ -21,13 +21,15 @@ describe('buildShareText', () => {
 });
 
 describe('buildTweetIntentUrl', () => {
-  it('text と url を URL エンコードして intent URL を組み立てる', () => {
+  it('X アプリが横取りできる twitter.com/intent/tweet で組み立てる', () => {
     const url = buildTweetIntentUrl(
       '✅ 本物です',
       'https://suzuri.jp/YokoPhys/20400056/t-shirt/s/white',
     );
     const parsed = new URL(url);
-    expect(parsed.origin + parsed.pathname).toBe('https://x.com/intent/post');
+    expect(parsed.origin + parsed.pathname).toBe(
+      'https://twitter.com/intent/tweet',
+    );
     expect(parsed.searchParams.get('text')).toBe('✅ 本物です');
     expect(parsed.searchParams.get('url')).toBe(
       'https://suzuri.jp/YokoPhys/20400056/t-shirt/s/white',

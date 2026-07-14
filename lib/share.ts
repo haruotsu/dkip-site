@@ -11,7 +11,10 @@ export function buildShareText(d: string, y: string): string {
   ].join('\n');
 }
 
+// x.com/intent/post だとスマホで未ログインの Web 版が開いてしまう。
+// twitter.com/intent/tweet は X アプリがユニバーサルリンクとして横取りするので、
+// アプリの投稿画面が直接開く（ログイン要求されない）。
 export function buildTweetIntentUrl(text: string, url: string): string {
   const params = new URLSearchParams({ text, url });
-  return `https://x.com/intent/post?${params}`;
+  return `https://twitter.com/intent/tweet?${params}`;
 }
