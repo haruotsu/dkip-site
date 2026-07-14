@@ -128,7 +128,7 @@ describe('parseVerifyQuery', () => {
     }
   });
 
-  it('https 以外の item は無視する', () => {
+  it('http/https 以外のスキームの item は無視する', () => {
     const result = parseVerifyQuery(
       params({
         d: 'example.com',
@@ -136,7 +136,7 @@ describe('parseVerifyQuery', () => {
         t: '2026-07-14',
         n: '9f3a1c',
         sig: 'x',
-        item: 'http://suzuri.jp/haruotsu/12345',
+        item: 'javascript:alert(1)',
       }),
     );
     expect(result.mode).toBe('verify');
@@ -171,6 +171,25 @@ describe('parseVerifyQuery', () => {
     );
     if (sub.mode === 'verify') {
       expect(sub.item).toBe('https://shop.suzuri.jp/x');
+    }
+  });
+
+  it('suzuri.jp の http は https に昇格して受け入れる（印刷済み QR の互換性）', () => {
+    const result = parseVerifyQuery(
+      params({
+        d: 'example.com',
+        y: '2014',
+        t: '2026-07-14',
+        n: '9f3a1c',
+        sig: 'x',
+        item: 'http://suzuri.jp/YokoPhys/20400056/t-shirt/s/white',
+      }),
+    );
+    expect(result.mode).toBe('verify');
+    if (result.mode === 'verify') {
+      expect(result.item).toBe(
+        'https://suzuri.jp/YokoPhys/20400056/t-shirt/s/white',
+      );
     }
   });
 

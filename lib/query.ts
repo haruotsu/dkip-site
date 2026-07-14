@@ -38,10 +38,12 @@ function parseItemUrl(raw: string | null): string | undefined {
   } catch {
     return undefined;
   }
-  if (url.protocol !== 'https:') return undefined;
+  if (url.protocol !== 'https:' && url.protocol !== 'http:') return undefined;
   if (url.hostname !== 'suzuri.jp' && !url.hostname.endsWith('.suzuri.jp')) {
     return undefined;
   }
+  // 印刷済み QR の URL は直せないので、http は https に昇格して受け入れる
+  url.protocol = 'https:';
   return url.href;
 }
 
