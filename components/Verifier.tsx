@@ -11,6 +11,7 @@ import { decodeBase64Url } from '@/lib/b64';
 import TxtReveal from './TxtReveal';
 import TryItYourself from './TryItYourself';
 import ShareButton from './ShareButton';
+import DomainLinkCard from './DomainLinkCard';
 
 type LineStatus = 'active' | 'ok' | 'ng';
 
@@ -121,6 +122,7 @@ function ResultCard({
         <p className="result-desc">
           このドメインの所有者が {t} に発行したことを、DNS が保証しています。
         </p>
+        <DomainLinkCard d={d!} />
         <ShareButton d={d!} y={y ?? 'unknown'} item={item} />
       </div>
     );
