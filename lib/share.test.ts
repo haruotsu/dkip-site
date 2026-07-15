@@ -5,7 +5,7 @@ describe('buildShareText', () => {
   it('ドメイン・取得年・ハッシュタグ入りのシェア文を組み立てる', () => {
     expect(buildShareText('example.com', '2014')).toBe(
       '✅ example.com は本物です（since 2014）\n' +
-        'このTシャツの本物さは、DNS が保証しています。\n' +
+        'このTシャツは、ドメインの所有者が発行したものだと DNS が保証しています。\n' +
         '#ムームードメインAPI #SUZURI',
     );
   });
@@ -13,7 +13,7 @@ describe('buildShareText', () => {
   it('y=unknown のときは since を含めない', () => {
     expect(buildShareText('example.com', 'unknown')).toBe(
       '✅ example.com は本物です\n' +
-        'このTシャツの本物さは、DNS が保証しています。\n' +
+        'このTシャツは、ドメインの所有者が発行したものだと DNS が保証しています。\n' +
         '#ムームードメインAPI #SUZURI',
     );
   });

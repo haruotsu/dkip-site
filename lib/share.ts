@@ -6,7 +6,7 @@ export function buildShareText(d: string, y: string): string {
   const since = y && y !== 'unknown' ? `（since ${y}）` : '';
   return [
     `✅ ${d} は本物です${since}`,
-    'このTシャツの本物さは、DNS が保証しています。',
+    'このTシャツは、ドメインの所有者が発行したものだと DNS が保証しています。',
     HASHTAGS,
   ].join('\n');
 }

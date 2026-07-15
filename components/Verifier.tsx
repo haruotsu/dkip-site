@@ -90,7 +90,7 @@ function Header() {
 function Footer() {
   return (
     <footer className="site-footer">
-      “このTシャツの本物さは、DNS が保証しています。”
+      “このTシャツは、ドメインの所有者が発行したものだと DNS が保証しています。”
     </footer>
   );
 }
@@ -208,7 +208,7 @@ export default function Verifier() {
         setVerdict({
           kind: 'error',
           reason:
-            'DNS リゾルバ（Cloudflare / Google DoH）に到達できませんでした。ネットワークを確認して再読み込みしてください。',
+            'ネットワーク接続を確認して、もう一度読み込んでください。',
         });
         return;
       }
