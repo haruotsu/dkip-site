@@ -216,7 +216,7 @@ export default function Verifier() {
       setEvidence({ name, records });
 
       const dkimTxt = records.find(
-        (r) => r.includes('v=DKIM1') && r.includes('p='),
+        (r) => r.includes('v=DKIP1') && r.includes('p='),
       );
       if (!dkimTxt) {
         settle(l2, 'ng', 'DNS に公開鍵が見つかりません', `TXT ${name}`);

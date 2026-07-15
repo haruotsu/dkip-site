@@ -20,14 +20,14 @@ describe('resolveTXT', () => {
       jsonResponse({
         Status: 0,
         Answer: [
-          { name: NAME, type: 16, data: '"v=DKIM1; k=ed25519; p=AAA"' },
+          { name: NAME, type: 16, data: '"v=DKIP1; k=ed25519; p=AAA"' },
         ],
       }),
     );
     vi.stubGlobal('fetch', fetchMock);
 
     const result = await resolveTXT(NAME);
-    expect(result.records).toEqual(['v=DKIM1; k=ed25519; p=AAA']);
+    expect(result.records).toEqual(['v=DKIP1; k=ed25519; p=AAA']);
     expect(result.resolver).toBe('cloudflare');
     expect(fetchMock).toHaveBeenCalledTimes(1);
     const [url, init] = fetchMock.mock.calls[0];
@@ -43,13 +43,13 @@ describe('resolveTXT', () => {
       .mockResolvedValueOnce(
         jsonResponse({
           Status: 0,
-          Answer: [{ name: NAME, type: 16, data: 'v=DKIM1; p=BBB' }],
+          Answer: [{ name: NAME, type: 16, data: 'v=DKIP1; p=BBB' }],
         }),
       );
     vi.stubGlobal('fetch', fetchMock);
 
     const result = await resolveTXT(NAME);
-    expect(result.records).toEqual(['v=DKIM1; p=BBB']);
+    expect(result.records).toEqual(['v=DKIP1; p=BBB']);
     expect(result.resolver).toBe('google');
     expect(String(fetchMock.mock.calls[1][0])).toContain('dns.google/resolve');
   });
@@ -58,13 +58,13 @@ describe('resolveTXT', () => {
     const fetchMock = vi.fn().mockResolvedValue(
       jsonResponse({
         Status: 0,
-        Answer: [{ name: NAME, type: 16, data: '"v=DKIM1; k=ed" "25519; p=CCC"' }],
+        Answer: [{ name: NAME, type: 16, data: '"v=DKIP1; k=ed" "25519; p=CCC"' }],
       }),
     );
     vi.stubGlobal('fetch', fetchMock);
 
     const result = await resolveTXT(NAME);
-    expect(result.records).toEqual(['v=DKIM1; k=ed25519; p=CCC']);
+    expect(result.records).toEqual(['v=DKIP1; k=ed25519; p=CCC']);
   });
 
   it('Answer が無い（NXDOMAIN 等）なら空配列を返す', async () => {
@@ -88,13 +88,13 @@ describe('resolveTXT', () => {
         Status: 0,
         Answer: [
           { name: NAME, type: 5, data: 'cname.example.com.' },
-          { name: NAME, type: 16, data: '"v=DKIM1; p=DDD"' },
+          { name: NAME, type: 16, data: '"v=DKIP1; p=DDD"' },
         ],
       }),
     );
     vi.stubGlobal('fetch', fetchMock);
 
     const result = await resolveTXT(NAME);
-    expect(result.records).toEqual(['v=DKIM1; p=DDD']);
+    expect(result.records).toEqual(['v=DKIP1; p=DDD']);
   });
 });

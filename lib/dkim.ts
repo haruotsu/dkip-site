@@ -5,8 +5,7 @@ export interface DkimKey {
   pubKeyBytes: Uint8Array;
 }
 
-// TXT 値 `v=DKIM1; k=ed25519; p=<base64>` をパースして Ed25519 公開鍵 (32 バイト) を取り出す。
-// 形式が合わない・鍵種が違う・長さが違う場合は null（検証失敗扱い）。
+// TXT 値 `v=DKIP1; k=ed25519; p=<base64>` をパースして Ed25519 公開鍵 (32 バイト) を取り出す。
 export function parseDkimTxt(txt: string): DkimKey | null {
   const unquoted = txt.replace(/^"|"$/g, '');
   const fields = new Map<string, string>();
@@ -16,9 +15,10 @@ export function parseDkimTxt(txt: string): DkimKey | null {
     fields.set(part.slice(0, eq).trim(), part.slice(eq + 1).trim());
   }
 
+  const v = fields.get('v') ?? '';
   const k = fields.get('k') ?? '';
   const p = fields.get('p');
-  if (k !== 'ed25519' || !p) return null;
+  if (v !== 'DKIP1' || k !== 'ed25519' || !p) return null;
 
   let pubKeyBytes: Uint8Array;
   try {
