@@ -1,9 +1,12 @@
 import CopyButton from './CopyButton';
 
-const COMMANDS = `export MUU_PAT=<ムームードメインの PAT>        # domains:read, dns:write
+const COMMANDS = `brew install go                                # Go が未インストールなら (macOS)
+
+export MUU_PAT=<ムームードメインの PAT>        # domains:read, dns:write
 export SUZURI_API_KEY=<SUZURI の API キー>
 
 go install github.com/haruotsu/dkip@latest
+export PATH="$PATH:$(go env GOPATH)/bin"       # dkip コマンドを使えるように
 dkip example.com   # ムームードメインで所有中のドメイン`;
 
 // 成功・失敗どちらの画面にも出す「あなたもやろう」導線。
