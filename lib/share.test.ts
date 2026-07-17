@@ -2,10 +2,11 @@ import { describe, it, expect } from 'vitest';
 import { buildShareText, buildTweetIntentUrl } from './share';
 
 describe('buildShareText', () => {
-  it('ドメイン・取得年・ハッシュタグ入りのシェア文を組み立てる', () => {
+  it('ドメイン・取得年・サイトURL・ハッシュタグ入りのシェア文を組み立てる', () => {
     expect(buildShareText('example.com', '2014')).toBe(
       '✅ example.com は本物です（since 2014）\n' +
         'このTシャツは、ドメインの所有者が発行したものだと DNS が保証しています。\n' +
+        'https://dkip-site.lolipop-now.app/\n' +
         '#ムームードメインAPI #SUZURI',
     );
   });
@@ -14,6 +15,7 @@ describe('buildShareText', () => {
     expect(buildShareText('example.com', 'unknown')).toBe(
       '✅ example.com は本物です\n' +
         'このTシャツは、ドメインの所有者が発行したものだと DNS が保証しています。\n' +
+        'https://dkip-site.lolipop-now.app/\n' +
         '#ムームードメインAPI #SUZURI',
     );
   });
